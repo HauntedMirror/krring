@@ -166,15 +166,26 @@ func initPinger(host string, opts options) (*probing.Pinger, error) {
 }
 
 func pingerOnrecv(pkt *probing.Packet) {
-	fmt.Printf(
-		"%s seq=%s %sbytes from %s: ttl=%s time=%s\n",
-		renderASCIIArt(pkt.Seq),
-		color.New(color.FgYellow, color.Bold).Sprintf("%d", pkt.Seq),
-		color.New(color.FgBlue, color.Bold).Sprintf("%d", pkt.Nbytes),
-		color.New(color.FgWhite, color.Bold).Sprintf("%s", pkt.IPAddr),
-		color.New(color.FgCyan, color.Bold).Sprintf("%d", pkt.TTL),
-		color.New(color.FgMagenta, color.Bold).Sprintf("%v", pkt.Rtt),
-	)
+	if runtime.GOOS == "windows" {
+		fmt.Printf(
+			"%s seq=%s %sbytes from %s: time=%s\n",
+			renderASCIIArt(pkt.Seq),
+			color.New(color.FgYellow, color.Bold).Sprintf("%d", pkt.Seq),
+			color.New(color.FgBlue, color.Bold).Sprintf("%d", pkt.Nbytes),
+			color.New(color.FgWhite, color.Bold).Sprintf("%s", pkt.IPAddr),
+			color.New(color.FgMagenta, color.Bold).Sprintf("%v", pkt.Rtt),
+		)
+	} else {
+		fmt.Printf(
+			"%s seq=%s %sbytes from %s: ttl=%s time=%s\n",
+			renderASCIIArt(pkt.Seq),
+			color.New(color.FgYellow, color.Bold).Sprintf("%d", pkt.Seq),
+			color.New(color.FgBlue, color.Bold).Sprintf("%d", pkt.Nbytes),
+			color.New(color.FgWhite, color.Bold).Sprintf("%s", pkt.IPAddr),
+			color.New(color.FgCyan, color.Bold).Sprintf("%d", pkt.TTL),
+			color.New(color.FgMagenta, color.Bold).Sprintf("%v", pkt.Rtt),
+		)
+	}
 }
 
 func pingerOnFinish(stats *probing.Statistics) {
