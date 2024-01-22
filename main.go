@@ -14,27 +14,39 @@ import (
 )
 
 // nolint:gochecknoglobals
-var krring = []string{
-	` ...        .     ...   ..    ..     .........           `,
-	` ...     ....          ..  ..      ... .....  .. ..      `,
-	` ...    .......      ...         ... . ..... BBBBBBB     `,
-	`.....  ........ .BBBBBBBBBBBBBBB.....  ... BBBBBBBBBB.  .`,
-	` .... ........BBBBBBBBBBBBBBBBBBBBB.  ... BBBBBBBBBBB    `,
-	`      ....... BBWWWWBBBBBBBBBBBBBBBB.... BBBBBBBBBBBB    `,
-	`.    .  .... BBWWBBWWBBBBBBBBBBWWWWBB... BBBBBBBBBBB     `,
-	`   ..   ....BBBBWWWWBBRRRRRRBBWWBBWWB.. .BBBBBBBBBBB     `,
-	`    .       BBBBBBBBRRRRRRRRRRBWWWWBB.   .BBBBBBBBBB     `,
-	`   ....     .BBBBBBBBRRRRRRRRBBBBBBBB.      BBBBBBBB     `,
-	`  .....      .  BBBBBBBBBBBBBBBBBBBB.        BBBBBBB.    `,
-	`......     .. . BBBBBBBBBBBBBBBBBB . .      .BBBBBBB     `,
-	`......       BBBBBBBBBBBBBBBBBBBBB  .      .BBBBBBB      `,
-	`......   .BBBBBBBBBBBBBBBBBBYYWWBBBBB  ..  BBBBBBB       `,
-	`...    . BBBBBBBBBBBBBBBBYWWWWWWWWWBBBBBBBBBBBBBB.       `,
-	`       BBBBBBBBBBBBBBBBYWWWWWWWWWWWWWBBBBBBBBB .         `,
-	`      BBBBBBBBBBBBBBBYWWWWWWWWWWWWWWWWBB    .            `,
-	`     BBBBBBBBBBBBBBBYWWWWWWWWWWWWWWWWWWW  ........       `,
-	`  .BBBBBBBBBBBBBBBBYWWWWWWWWWWWWWWWWWWWW    .........    `,
-	` .BBBBBBBBBBBBBBBBYWWWWWWWWWWWWWWWWWWWWWW       .... . . `,
+var krrg = []string{
+	`                                                                `,
+	`                                          AA                    `,
+	`                                    AA  AABBAAAA                `,
+	`          AAAAAAAA        AAAAAAAAAABBAABBBBBBBBAAAA            `,
+	`        AACCCCDDDDAA  AAAACCCCCCEEFFGGBBBBBBBBBBBBEEAA          `,
+	`      AACCCCCCDDDDDDAACCCCCCCCCCEEEEFFGGBBBBHHBBBBEEEEAA        `,
+	`      AACCCCCCDDDDCCCCCCCCCCCCCCEEEEEEFFGGHHHHHHFFEEEEAA        `,
+	`      AACCCCDDDDDDCCCCCCCCCCCCCCEEEEEEEEFFGGHHHHEEFFEEAA        `,
+	`        AADDDDDDCCCCCCCCCCCCCCCCEEEEEEEEEEFFDDEEFFEEAA          `,
+	`          AADDDDCCCCCCCCCCCCCCCCEEEEEEEEEEDDDDDDEEEEEEAA        `,
+	`        AAIIIIIICCCCCCCCCCCCCCCCEEEEEEEEDDEEDDEEDDEEEEAA        `,
+	`        AAIIIIAACCCCCCCCCCCCCCCCEEEEEEEEEEEEDDEEAAEEEEAA        `,
+	`        AAIIIIAACCCCCCCCCCCCCCCCEEEEEEEEEEEEDDEEAAEEEEAA        `,
+	`        AAIIIIAACCCCCCJJJJJJKKKKKKKKJJJJJJEEEEEEAAEEEEAA        `,
+	`        AAIIIIAACCCCCCLLMMLLKKKKKKKKLLMMLLEEEEEEAAEEEEAA        `,
+	`        AAIIIIAACCCCCCLLNNNNKKKKKKKKNNNNLLEEEEEEAAEEEEAA        `,
+	`        AAIIIIAACCCCCCLLOOOOKKKKKKKKOOOOLLEEEEEEAAEEEEAA        `,
+	`        AAIIIIAAAAAAPPQQRRKKKKKKKKKKKKRRQQPPEEEEAAEEEEAA        `,
+	`      AAIIIIAA      AACCQQQQQQQQQQQQQQQQEEAA      AAEEEEAA      `,
+	`    AAIIIIIIAA      AACCAAAAAASSSSAAAAAAEEAA      AAEEEEAA      `,
+	`  AAIIIIIIAA        AACCAAKKKKKKKKKKKKAAEEAA        AAEEEEAA    `,
+	`  AAIIIIAA            AAAATTTTSSSSTTTTAAAA          AAEEEEAA    `,
+	`AAIIIIAA            AAAAUUSSUUTTTTUUSSUUAAAA          AAEEEEAA  `,
+	`AAIIIIAA          AAUUUUAAAASSTTTTSSAAAAUUUUAA        AAEEEEAA  `,
+	`AAIIIIAA        AAKKKKUUAAUUUULLLLUUUUAAUUKKKKAA      AAEEEEAA  `,
+	`  AAIIIIAA        AAAAAAUUUUUUSSSSUUUUUUAAAAAA      AAEEEEAA    `,
+	`    AAIIIIAA        AAUUUUUUTTTTTTTTUUVVUUAA      AAEEEEAA      `,
+	`      AAAAIIAA        AAAASSKKAAAAKKSSAAAA      AAEEAAAA        `,
+	`          AA          AASSAAKKAAAAKKAASSAA        AA            `,
+	`                        AAAAUUAAAAUUAAAA                        `,
+	`                          AAUUAAAAUUAA                          `,
+	`                          AAAAAAAAAAAA                          `,
 }
 
 // nolint:gochecknoglobals
@@ -55,7 +67,7 @@ const (
 )
 
 type options struct {
-	Count     int  `short:"c" long:"count" default:"20" description:"Stop after <count> replies"`
+	Count     int  `short:"c" long:"count" default:"32" description:"Stop after <count> replies"`
 	Privilege bool `short:"P" long:"privilege" description:"Enable privileged mode"`
 	Version   bool `short:"V" long:"version" description:"Show version"`
 }
@@ -188,16 +200,34 @@ func pingerOnFinish(stats *probing.Statistics) {
 }
 
 func renderASCIIArt(idx int) string {
-	if len(krring) <= idx {
-		idx %= len(krring)
+	if len(krrg) <= idx {
+		idx %= len(krrg)
 	}
 
-	line := krring[idx]
+	line := krrg[idx]
 
-	line = colorize(line, 'R', color.New(color.FgRed, color.Bold))
-	line = colorize(line, 'Y', color.New(color.FgYellow, color.Bold))
-	line = colorize(line, 'B', color.New(color.FgBlack, color.Bold))
-	line = colorize(line, 'W', color.New(color.FgWhite, color.Bold))
+	line = colorize(line, 'A', color.NewRGBStyle(color.RGB(234, 44, 134), color.RGB(234, 44, 134)))
+	line = colorize(line, 'B', color.NewRGBStyle(color.RGB(32, 47, 47), color.RGB(32, 47, 47)))
+	line = colorize(line, 'C', color.NewRGBStyle(color.RGB(90, 79, 90), color.RGB(90, 79, 90)))
+	line = colorize(line, 'D', color.NewRGBStyle(color.RGB(29, 20, 30), color.RGB(29, 20, 30)))
+	line = colorize(line, 'E', color.NewRGBStyle(color.RGB(254, 177, 212), color.RGB(254, 177, 212)))
+	line = colorize(line, 'F', color.NewRGBStyle(color.RGB(255, 234, 209), color.RGB(255, 234, 209)))
+	line = colorize(line, 'G', color.NewRGBStyle(color.RGB(253, 213, 234), color.RGB(253, 213, 234)))
+	line = colorize(line, 'H', color.NewRGBStyle(color.RGB(165, 16, 65), color.RGB(165, 16, 65)))
+	line = colorize(line, 'I', color.NewRGBStyle(color.RGB(85, 70, 82), color.RGB(85, 70, 82)))
+	line = colorize(line, 'J', color.NewRGBStyle(color.RGB(73, 37, 58), color.RGB(73, 37, 58)))
+	line = colorize(line, 'K', color.NewRGBStyle(color.RGB(255, 239, 226), color.RGB(255, 239, 226)))
+	line = colorize(line, 'L', color.NewRGBStyle(color.RGB(255, 255, 255), color.RGB(255, 255, 255)))
+	line = colorize(line, 'M', color.NewRGBStyle(color.RGB(105, 14, 98), color.RGB(105, 14, 98)))
+	line = colorize(line, 'N', color.NewRGBStyle(color.RGB(119, 67, 115), color.RGB(119, 67, 115)))
+	line = colorize(line, 'O', color.NewRGBStyle(color.RGB(255, 224, 248), color.RGB(255, 224, 248)))
+	line = colorize(line, 'P', color.NewRGBStyle(color.RGB(192, 24, 98), color.RGB(192, 24, 98)))
+	line = colorize(line, 'Q', color.NewRGBStyle(color.RGB(215, 146, 156), color.RGB(215, 146, 156)))
+	line = colorize(line, 'R', color.NewRGBStyle(color.RGB(255, 202, 207), color.RGB(255, 202, 207)))
+	line = colorize(line, 'S', color.NewRGBStyle(color.RGB(136, 35, 73), color.RGB(136, 35, 73)))
+	line = colorize(line, 'T', color.NewRGBStyle(color.RGB(253, 213, 234), color.RGB(253, 213, 234)))
+	line = colorize(line, 'U', color.NewRGBStyle(color.RGB(67, 52, 60), color.RGB(67, 52, 60)))
+	line = colorize(line, 'V', color.NewRGBStyle(color.RGB(77, 64, 55), color.RGB(77, 64, 55)))
 
 	return line
 }
