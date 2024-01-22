@@ -14,7 +14,7 @@ import (
 )
 
 // nolint:gochecknoglobals
-var pingu = []string{
+var krring = []string{
 	` ...        .     ...   ..    ..     .........           `,
 	` ...     ....          ..  ..      ... .....  .. ..      `,
 	` ...    .......      ...         ... . ..... BBBBBBB     `,
@@ -39,9 +39,9 @@ var pingu = []string{
 
 // nolint:gochecknoglobals
 var (
-	appName        = "pingu"
+	appName        = "krring"
 	appUsage       = "[OPTIONS] HOST"
-	appDescription = "`ping` command but with pingu"
+	appDescription = "`ping` command but with krrg"
 	appVersion     = "???"
 	appRevision    = "???"
 )
@@ -188,11 +188,11 @@ func pingerOnFinish(stats *probing.Statistics) {
 }
 
 func renderASCIIArt(idx int) string {
-	if len(pingu) <= idx {
-		idx %= len(pingu)
+	if len(krring) <= idx {
+		idx %= len(krring)
 	}
 
-	line := pingu[idx]
+	line := krring[idx]
 
 	line = colorize(line, 'R', color.New(color.FgRed, color.Bold))
 	line = colorize(line, 'Y', color.New(color.FgYellow, color.Bold))
