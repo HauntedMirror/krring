@@ -60,7 +60,7 @@ You can download executable binaries from the latest release page.
 
 ### Build from source
 
-To build from source, clone this repository then run `make build` or `go install`. Develo*ping* on `go1.18.3 linux/amd64`.
+To build from source, clone this repository then run `make build` or `go install`. Develo*ping* on `go1.21.6 linux/amd64`.
 
 ## LICENSE
 
